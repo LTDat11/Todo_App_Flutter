@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _controller = TextEditingController();
   List toDoList = [
     ['Learn Flutter', true],
     ['Learn Firebase', true],
@@ -29,6 +30,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void addNewTask() {
+    if (_controller.text.trim().isEmpty) return;
+    setState(() {
+      toDoList.add([_controller.text, false]);
+      _controller.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +49,7 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
+                  controller: _controller,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -55,7 +65,7 @@ class _HomePageState extends State<HomePage> {
               tooltip: "Add",
               elevation: 0,
               backgroundColor: Colors.black,
-              onPressed: () {},
+              onPressed: addNewTask,
               child: const Icon(
                 Icons.add,
                 color: Colors.white,
