@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/todo_list.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -33,11 +35,10 @@ class _HomePageState extends State<HomePage> {
           : ListView.builder(
               itemCount: toDoList.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: toDoList[index][1]
-                      ? const Icon(Icons.check)
-                      : const Icon(Icons.radio_button_unchecked),
-                  title: Text(toDoList[index][0]),
+                return TodoList(
+                  onChanged: (value) {},
+                  taskCompleted: toDoList[index][1],
+                  taskName: toDoList[index][0],
                 );
               },
             ),
