@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _controller = TextEditingController();
   List toDoList = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -29,11 +30,14 @@ class _HomePageState extends State<HomePage> {
   Future<void> _loadToDoList() async {
     final prefs = await SharedPreferences.getInstance();
     final String? encodedData = prefs.getString('todo_list');
-    if (encodedData != null) {
-      setState(() {
+
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      if (encodedData != null) {
         toDoList = List.from(jsonDecode(encodedData));
-      });
-    }
+      }
+      isLoading = false;
+    });
   }
 
   void checkBoxChanged(int index) {
@@ -104,21 +108,25 @@ class _HomePageState extends State<HomePage> {
         foregroundColor: Colors.white,
         centerTitle: true,
       ),
-      body: toDoList.isEmpty
+      body: isLoading
           ? const Center(
-              child: Text('Empty'),
+              child: CircularProgressIndicator(),
             )
-          : ListView.builder(
-              itemCount: toDoList.length,
-              itemBuilder: (context, index) {
-                return TodoList(
-                  deleteFunction: (context) => deleteTask(index),
-                  onChanged: (value) => checkBoxChanged(index),
-                  taskCompleted: toDoList[index][1],
-                  taskName: toDoList[index][0],
-                );
-              },
-            ),
+          : toDoList.isEmpty
+              ? const Center(
+                  child: Text('Empty'),
+                )
+              : ListView.builder(
+                  itemCount: toDoList.length,
+                  itemBuilder: (context, index) {
+                    return TodoList(
+                      deleteFunction: (context) => deleteTask(index),
+                      onChanged: (value) => checkBoxChanged(index),
+                      taskCompleted: toDoList[index][1],
+                      taskName: toDoList[index][0],
+                    );
+                  },
+                ),
     );
   }
 }
