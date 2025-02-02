@@ -16,6 +16,13 @@ class _HomePageState extends State<HomePage> {
     ['Learn Backend', false],
     ['Buy Code', false]
   ];
+
+  void checkBoxChanged(int index) {
+    setState(() {
+      toDoList[index][1] = !toDoList[index][1]; //toggle
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +43,7 @@ class _HomePageState extends State<HomePage> {
               itemCount: toDoList.length,
               itemBuilder: (context, index) {
                 return TodoList(
-                  onChanged: (value) {},
+                  onChanged: (value) => checkBoxChanged(index),
                   taskCompleted: toDoList[index][1],
                   taskName: toDoList[index][0],
                 );
