@@ -32,6 +32,38 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      hintText: 'Add a new todo items',
+                      filled: true,
+                      fillColor: const Color(0xffF1F3F5)),
+                ),
+              ),
+            ),
+            FloatingActionButton(
+              tooltip: "Add",
+              elevation: 0,
+              backgroundColor: Colors.black,
+              onPressed: () {},
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
