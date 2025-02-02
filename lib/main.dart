@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/pages/home_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,12 +10,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+    return MaterialApp(
+      title: 'Flutter ToDo App',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+        useMaterial3: true,
       ),
+      home: const HomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
