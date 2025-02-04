@@ -55,8 +55,26 @@ class _HomePageState extends State<HomePage> {
     _saveToDoList();
   }
 
+  void _closeSnackBar() {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  }
+
   void addNewTask() {
-    if (_controller.text.trim().isEmpty) return;
+    var snackBar = SnackBar(
+      content: const Text('Fill task please!'),
+      backgroundColor: Colors.black,
+      action: SnackBarAction(
+        label: 'Close',
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        disabledTextColor: Colors.white,
+        onPressed: _closeSnackBar,
+      ),
+    );
+    if (_controller.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return;
+    }
     setState(() {
       toDoList.add([_controller.text, false]);
       _controller.clear();
