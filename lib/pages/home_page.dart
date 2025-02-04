@@ -51,6 +51,7 @@ class _HomePageState extends State<HomePage> {
   void deleteTask(int index) {
     setState(() {
       toDoList.removeAt(index);
+      Navigator.pop(context);
     });
     _saveToDoList();
   }
@@ -80,6 +81,28 @@ class _HomePageState extends State<HomePage> {
       _controller.clear();
     });
     _saveToDoList();
+  }
+
+  void _showDialog(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Confirm"),
+          content: const Text("Are you want to delete this task?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancle"),
+            ),
+            ElevatedButton(
+              onPressed: () => deleteTask(index),
+              child: const Text("Yes"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -215,7 +238,8 @@ class _HomePageState extends State<HomePage> {
                         // );
                       },
                       child: TodoList(
-                        deleteFunction: (context) => deleteTask(index),
+                        deleteFunction: (context) =>
+                            _showDialog(context, index),
                         onChanged: (value) => checkBoxChanged(index),
                         taskCompleted: toDoList[index][1],
                         taskName: toDoList[index][0],
